@@ -86,9 +86,12 @@ public class LongTaskTransformation implements LongTask, Runnable {
                 try {
                     intersection.retainAll(firstHorizontal);
                     for (Node neighbour : intersection) {
-                        firstMatrix.set(i, firstHorizontal.indexOf(neighbour), 1);
+                     int j=firstHorizontal.indexOf(neighbour);
+                     if (j > -1){
+                        float w=graph.getEdge(firstVertical.get(i), firstHorizontal.get(j)).getWeight();
+                        firstMatrix.set(i, j, w);
                     }
-                } catch (UnsupportedOperationException ex) {
+                }} catch (UnsupportedOperationException ex) {
                     System.out.println("exception");
                     // TODO - exception handler
                 }
@@ -102,9 +105,13 @@ public class LongTaskTransformation implements LongTask, Runnable {
             if (intersection != null && intersection.size() > 0) {
                 try {
                     intersection.retainAll(secondHorizontal);
-                    for (Node neighbour : intersection) {
-                        secondMatrix.set(i, secondHorizontal.indexOf(neighbour), 1);
-                    }
+                         for (Node neighbour : intersection) {
+                            int j=secondHorizontal.indexOf(neighbour);
+                            if (j>-1){                    
+                                float w=graph.getEdge(secondVertical.get(i), secondHorizontal.get(j)).getWeight();
+                                secondMatrix.set(i, j, w);
+                            }
+                         }
                 } catch (UnsupportedOperationException ex) {
                     System.out.println("exception");
                     // TODO - exception handler
