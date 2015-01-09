@@ -83,11 +83,12 @@ public class LongTaskTransformation implements LongTask, Runnable {
                 secondHorizontal.add(n);
             }
         }
-        
+        Progress.start(progressTicket, firstVertical.size()+5);
+   
         if (cancelled) {
             return;
         }
-        Progress.progress(progressTicket);
+        Progress.progress(progressTicket,1);
 
         // first matrix
         Matrix firstMatrix = new Matrix(firstVertical.size(), firstHorizontal.size());
@@ -138,13 +139,13 @@ public class LongTaskTransformation implements LongTask, Runnable {
         if (cancelled) {
             return;
         }
-        Progress.progress(progressTicket, "Multiplication");
+        Progress.progress(progressTicket, "Multiplication",2);
         
         Matrix result = firstMatrix.timesParallelIndexed(secondMatrix);
         if (cancelled) {
             return;
         }
-        Progress.progress(progressTicket, "Removing nodes/edges");
+        Progress.progress(progressTicket, "Removing nodes/edges",3);
         
         
         if (removeNodes) {
@@ -174,7 +175,7 @@ public class LongTaskTransformation implements LongTask, Runnable {
         if (cancelled) {
             return;
         }
-        Progress.progress(progressTicket, "Creating new edges");
+        Progress.progress(progressTicket, "Creating new edges",4);
         AttributeController ac = Lookup.getDefault().lookup(AttributeController.class);
         AttributeModel model = ac.getModel();        
         AttributeColumn edgeTypeCol = model.getEdgeTable().getColumn("MMNT-EdgeType");        
@@ -195,6 +196,10 @@ public class LongTaskTransformation implements LongTask, Runnable {
                     }
                 }
             }
+        if (cancelled) {
+                return;
+         }
+         Progress.progress (progressTicket,i+5);
         }
         Progress.finish(progressTicket);
     }
