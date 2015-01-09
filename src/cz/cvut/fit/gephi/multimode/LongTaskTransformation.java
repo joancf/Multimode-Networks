@@ -25,14 +25,19 @@ public class LongTaskTransformation implements LongTask, Runnable {
     private String outDimension;
     private boolean removeEdges = true;
     private boolean removeNodes = true;
+    private boolean directed=false;
+    private boolean considerDirected=false;
+    private double threshold=0.0;
     
-    public LongTaskTransformation(AttributeColumn attributeColumn, String inDimension, String commonDimension, String outDimension, boolean removeEdges, boolean removeNodes) {
+    public LongTaskTransformation(AttributeColumn attributeColumn, String inDimension, String commonDimension, String outDimension,double threshold, boolean removeEdges, boolean removeNodes, boolean considerDirected) {
         this.attributeColumn = attributeColumn;
         this.inDimension = inDimension;
         this.commonDimension = commonDimension;
         this.outDimension = outDimension;
         this.removeEdges = removeEdges;
         this.removeNodes = removeNodes;
+        this.considerDirected=considerDirected;
+        this.threshold=threshold;
     }
     
     @Override
@@ -43,8 +48,14 @@ public class LongTaskTransformation implements LongTask, Runnable {
         // graph
         GraphController graphController = Lookup.getDefault().lookup(GraphController.class);
         GraphModel graphModel = graphController.getModel();
-        Graph graph = graphModel.getGraphVisible();
-        //Graph graph = graphModel.getUndirectedGraphVisible();
+        Graph graph;
+        if (considerDirected){
+            graph = graphModel.getGraphVisible();
+            directed=graphModel.isDirected();
+        } else { 
+            graph = graphModel.getUndirectedGraphVisible();
+            directed=false;        
+        }
         Node[] nodes = graph.getNodes().toArray();
 
         // matrix axis
@@ -88,8 +99,11 @@ public class LongTaskTransformation implements LongTask, Runnable {
                     for (Node neighbour : intersection) {
                      int j=firstHorizontal.indexOf(neighbour);
                      if (j > -1){
-                        float w=graph.getEdge(firstVertical.get(i), firstHorizontal.get(j)).getWeight();
-                        firstMatrix.set(i, j, w);
+                        Edge edge = graph.getEdge(firstVertical.get(i), firstHorizontal.get(j));
+                        if (edge!= null) {
+                            float w=edge.getWeight();
+                            firstMatrix.set(i, j, w);
+                       }
                     }
                 }} catch (UnsupportedOperationException ex) {
                     System.out.println("exception");
@@ -108,8 +122,11 @@ public class LongTaskTransformation implements LongTask, Runnable {
                          for (Node neighbour : intersection) {
                             int j=secondHorizontal.indexOf(neighbour);
                             if (j>-1){                    
-                                float w=graph.getEdge(secondVertical.get(i), secondHorizontal.get(j)).getWeight();
-                                secondMatrix.set(i, j, w);
+                                Edge edge =graph.getEdge(secondVertical.get(i), secondHorizontal.get(j));
+                                 if (edge!= null) {
+                                    float w=edge.getWeight();
+                                    secondMatrix.set(i, j, w);
+                                }
                             }
                          }
                 } catch (UnsupportedOperationException ex) {
@@ -169,8 +186,8 @@ public class LongTaskTransformation implements LongTask, Runnable {
         Edge ee = null;
         for (int i = 0; i < result.getM(); i++) {
             for (int j = 0; j < result.getN(); j++) {
-                if (graph.contains(firstVertical.get(i)) && graph.contains(secondHorizontal.get(j)) && graph.getEdge(firstVertical.get(i), secondHorizontal.get(j)) == null && result.get(i, j) > 0) {
-                    ee = graphModel.factory().newEdge(firstVertical.get(i), secondHorizontal.get(j), (float) result.get(i, j), graphModel.isDirected());
+                if (graph.contains(firstVertical.get(i)) && graph.contains(secondHorizontal.get(j)) && graph.getEdge(firstVertical.get(i), secondHorizontal.get(j)) == null && result.get(i, j) > threshold) {
+                    ee = graphModel.factory().newEdge(firstVertical.get(i), secondHorizontal.get(j), (float) result.get(i, j),this.directed );
                     if (!ee.isSelfLoop()) {
                         ee.getEdgeData().getAttributes().setValue(edgeTypeCol.getIndex(), inDimension + "<--->" + outDimension);
                         //ee.getEdgeData().setLabel(inDimension + "-" + outDimension);
