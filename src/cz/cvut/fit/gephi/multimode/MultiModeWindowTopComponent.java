@@ -73,7 +73,7 @@ public final class MultiModeWindowTopComponent extends TopComponent {
         jSeparator1 = new javax.swing.JSeparator();
         graphColoring = new javax.swing.JButton();
         bipartiteLabel = new javax.swing.JLabel();
-        undirected = new javax.swing.JCheckBox();
+        directed = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         threshold = new javax.swing.JTextField();
 
@@ -132,7 +132,7 @@ public final class MultiModeWindowTopComponent extends TopComponent {
 
         org.openide.awt.Mnemonics.setLocalizedText(bipartiteLabel, org.openide.util.NbBundle.getMessage(MultiModeWindowTopComponent.class, "MultiModeWindowTopComponent.bipartiteLabel.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(undirected, org.openide.util.NbBundle.getMessage(MultiModeWindowTopComponent.class, "MultiModeWindowTopComponent.undirected.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(directed, org.openide.util.NbBundle.getMessage(MultiModeWindowTopComponent.class, "MultiModeWindowTopComponent.directed.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(MultiModeWindowTopComponent.class, "MultiModeWindowTopComponent.jLabel1.text")); // NOI18N
 
@@ -180,7 +180,7 @@ public final class MultiModeWindowTopComponent extends TopComponent {
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(1, 1, 1))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(undirected)
+                                .addComponent(directed)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addComponent(threshold, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -216,7 +216,7 @@ public final class MultiModeWindowTopComponent extends TopComponent {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(removeEdges)
-                            .addComponent(undirected))
+                            .addComponent(directed))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(removeNodes)
@@ -312,7 +312,7 @@ public final class MultiModeWindowTopComponent extends TopComponent {
                 ((ValueCombination) firstMatrix.getSelectedItem()).getSecond(),
                 ((ValueCombination) secondMatrix.getSelectedItem()).getSecond(), 
                 Float.parseFloat(threshold.getText()),
-                removeEdges.isSelected(), removeNodes.isSelected(),undirected.isSelected());
+                removeEdges.isSelected(), removeNodes.isSelected(),directed.isSelected());
         executor.execute(longTask, longTask, "Transformation...", null);
 
         if (attributes.getItemCount() > 0 && (removeEdges.isSelected() || removeNodes.isSelected())) {
@@ -361,6 +361,7 @@ public final class MultiModeWindowTopComponent extends TopComponent {
     private javax.swing.JLabel attributeLabel;
     private javax.swing.JComboBox attributes;
     private javax.swing.JLabel bipartiteLabel;
+    private javax.swing.JCheckBox directed;
     private javax.swing.JComboBox firstMatrix;
     private javax.swing.JButton graphColoring;
     private javax.swing.JLabel jLabel1;
@@ -373,7 +374,6 @@ public final class MultiModeWindowTopComponent extends TopComponent {
     private javax.swing.JComboBox secondMatrix;
     private javax.swing.JButton start;
     private javax.swing.JTextField threshold;
-    private javax.swing.JCheckBox undirected;
     // End of variables declaration//GEN-END:variables
 
     @Override

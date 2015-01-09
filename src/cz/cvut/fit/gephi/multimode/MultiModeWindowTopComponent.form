@@ -50,7 +50,7 @@
                               <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="undirected" min="-2" max="-2" attributes="0"/>
+                              <Component id="directed" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -98,7 +98,7 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="removeEdges" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="undirected" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="directed" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -234,10 +234,10 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="undirected">
+    <Component class="javax.swing.JCheckBox" name="directed">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="cz/cvut/fit/gephi/multimode/Bundle.properties" key="MultiModeWindowTopComponent.undirected.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="cz/cvut/fit/gephi/multimode/Bundle.properties" key="MultiModeWindowTopComponent.directed.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
